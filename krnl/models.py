@@ -9,3 +9,6 @@ class Evento(models.Model):
     data_evento = models.DateTimeField()
     data_criacao = models.DateTimeField(auto_now=True)
     #usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_data_evento(self):
+        return self.data_evento.strftime('%d / %m / %Y - %H:%M H')
