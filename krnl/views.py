@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from krnl.models import Evento
 from django.contrib.auth.decorators import login_required
@@ -32,3 +34,32 @@ def lista_eventos(request):
     evento = Evento.objects.filter(usuario=usuario)
     dados = {'eventos':evento}
     return render(request, 'agenda.html', dados)
+
+@login_required(login_url='/login/')
+def evento(request):
+    return render(request, 'evento.html')
+
+@login_required(login_url='/login/')
+def submit_evento(request):
+    if request.POST:
+        titulo = request.POST.get('titulo')
+        descricao = request.POST.get('descricao')
+        data_evento = request.POST.get('data_evento')
+        usuario = request.user
+        Evento.objects.create(
+            titulo=titulo,
+            descricao=descricao,
+            data_evento=data_evento,
+            usuario=usuario
+        )
+    return redirect('/')
+
+@login_required(login_url='/login/')
+def delete_evento(request, id_evento):
+    usuario = request.user
+    evento = Evento.objects.get(id=id_evento)
+    if usuario == evento.usuario:
+        evento.delete()
+    return redirect('/')
+
+
