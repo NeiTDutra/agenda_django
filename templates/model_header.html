@@ -1,7 +1,8 @@
 
     <meta charset="UTF-8">
-    <a href="/logout">Logout</a>
     <title>Agenda</title>
     {% block content %}
-    <p>Usuário: {{ request.user }}</p>
+    <p>Usuário: {{ request.user }}
+    <a href="/logout">Logout</a>
+    </p>
     {% endblock %}
